@@ -14,25 +14,26 @@ The live website available on [this link!](https://ai-face-recognition.herokuapp
   - react-particles-js *for the animated background*
   - react-tilt *to tilt logo on hover*
 
-### To be able to run this project on your local machine, you will need to proceed the following steps:
+### To be able to run this project on your local machine, you will need to proceed with the following steps:
 
     1. Open Terminal and run the following scripts
     2. `git clone https://github.com/benjaminpeto/face-recognition-app.git`
     3. `cd ./into/the/path/to/the/directory/where/it/was/saved`
     4. `npm install` will install all dependencies
 
-You will find a dependency called `serve` in *package.json*. You can delete it, or not even include in your npm install.
+You will find a dependency called `serve` in *package.json*. You can delete it, or simply not include in your npm install.
 I needed this for the deployment on Heroku, but in your local environment, it's not needed.
 
 The last step before you can proceed to run it:
  In `package.json`, you need to rewrite the start script to `"react-scripts start"` like this below.
 
-`"scripts": {
+` "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },`
+  },
+`
 
     5. `npm start`
 
