@@ -25,7 +25,7 @@ const particlesOpt = {
 const initialState = {
   input: "",
   imageUrl: "",
-  box: {},
+  box: [],
   route: "signin",
   isSignedIn: false,
   user: {
@@ -55,9 +55,9 @@ class App extends Component {
     });
   };
 
-  calculateFaceLocation = (data) => {
+  calculateFaceLocation = (data, i) => {
     const clarifaiFace =
-      data.outputs[0].data.regions[0].region_info.bounding_box;
+      data.outputs[0].data.regions[i].region_info.bounding_box;
     const image = document.getElementById("inputImage");
     const width = Number(image.width);
     const height = Number(image.height);
@@ -70,7 +70,7 @@ class App extends Component {
   };
 
   displayFaceBox = (box) => {
-    this.setState({ box: box });
+    this.setState({ box: [...this.state.box, box] });
   };
 
   onInputChange = (event) => {
@@ -78,7 +78,7 @@ class App extends Component {
   };
 
   onButtonSubmit = () => {
-    this.setState({ imageUrl: this.state.input });
+    this.setState({ box: [], imageUrl: this.state.input });
       fetch("https://serene-springs-15154.herokuapp.com/imageurl", {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -102,7 +102,9 @@ class App extends Component {
             })
             .catch(console.log);
         }
-        this.displayFaceBox(this.calculateFaceLocation(response));
+        for (let i = 0; i < response.outputs[0].data.regions.length; i++) {
+          this.displayFaceBox(this.calculateFaceLocation(response, i));
+        }
       })
       .catch((err) => console.log(err));
   };
