@@ -1,42 +1,35 @@
-import React from "react";
+import { useState } from "react";
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      signInEmail: "",
-      signInPassword: "",
-    };
-  }
+const SignIn = ({ loadUser, onRouteChange }) => {
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
 
-  onEmailChange = (event) => {
-    this.setState({ signInEmail: event.target.value });
+  const onEmailChange = (event) => {
+    setSignInEmail(event.target.value);
   };
 
-  onPasswordChange = (event) => {
-    this.setState({ signInPassword: event.target.value });
+  const onPasswordChange = (event) => {
+    setSignInPassword(event.target.value);
   };
 
-  onSubmitSignIn = () => {
+  const onSubmitSignIn = () => {
     fetch("https://serene-springs-15154.herokuapp.com/signin", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: this.state.signInEmail,
-        password: this.state.signInPassword,
+        email: signInEmail,
+        password: signInPassword,
       }),
     })
       .then((response) => response.json())
       .then((user) => {
         if (user.id) {
-          this.props.loadUser(user);
-          this.props.onRouteChange("home");
+          loadUser(user);
+          onRouteChange("home");
         }
       });
   };
 
-  render() {
-    const { onRouteChange } = this.props;
     return (
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">
         <main className="pa4 black-80">
@@ -52,7 +45,7 @@ class SignIn extends React.Component {
                   type="email"
                   name="email-address"
                   id="email-address"
-                  onChange={this.onEmailChange}
+                  onChange={onEmailChange}
                 />
               </div>
               <div className="mv3">
@@ -64,13 +57,13 @@ class SignIn extends React.Component {
                   type="password"
                   name="password"
                   id="password"
-                  onChange={this.onPasswordChange}
+                  onChange={onPasswordChange}
                 />
               </div>
             </fieldset>
             <div className="">
               <input
-                onClick={this.onSubmitSignIn}
+                onClick={onSubmitSignIn}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
                 value="Sign in"
@@ -88,7 +81,6 @@ class SignIn extends React.Component {
         </main>
       </article>
     );
-  }
 }
 
 export default SignIn;
