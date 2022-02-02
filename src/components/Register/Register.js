@@ -1,47 +1,42 @@
-import React from "react";
+import { useState } from "react";
 
-class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      name: "",
-    };
-  }
+const Register = ({loadUser, onRouteChange}) => {
 
-  onNameChange = (event) => {
-    this.setState({ name: event.target.value });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  
+  const onNameChange = (event) => {
+    setName(event.target.value);
   };
 
-  onEmailChange = (event) => {
-    this.setState({ email: event.target.value });
+  const onEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
-  onPasswordChange = (event) => {
-    this.setState({ password: event.target.value });
+  const onPasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
-  onSubmitSignIn = () => {
+  const onSubmitSignIn = () => {
     fetch('https://serene-springs-15154.herokuapp.com/register', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            email: this.state.email,
-            password: this.state.password,
-            name: this.state.name
+            email: email,
+            password: password,
+            name: name
         })
     })
     .then(response => response.json())
     .then(user => {
         if(user.id){
-            this.props.loadUser(user);
-            this.props.onRouteChange('home');
+          loadUser(user);
+          onRouteChange('home');
         }
     })
 }
 
-  render() {
     return (
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">
         <main className="pa4 black-80">
@@ -57,7 +52,7 @@ class Register extends React.Component {
                   type="name"
                   name="name"
                   id="name"
-                  onChange={this.onNameChange}
+                  onChange={onNameChange}
                 />
               </div>
               <div className="mt3">
@@ -69,7 +64,7 @@ class Register extends React.Component {
                   type="email"
                   name="email-address"
                   id="email-address"
-                  onChange={this.onEmailChange}
+                  onChange={onEmailChange}
                 />
               </div>
               <div className="mv3">
@@ -81,13 +76,13 @@ class Register extends React.Component {
                   type="password"
                   name="password"
                   id="password"
-                  onChange={this.onPasswordChange}
+                  onChange={onPasswordChange}
                 />
               </div>
             </fieldset>
             <div className="">
               <input
-                onClick={this.onSubmitSignIn}
+                onClick={onSubmitSignIn}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
                 value="Register"
@@ -97,7 +92,6 @@ class Register extends React.Component {
         </main>
       </article>
     );
-  }
 }
 
 export default Register;
