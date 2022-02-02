@@ -21,13 +21,13 @@ const Register = ({loadUser, onRouteChange}) => {
   };
 
   const onSubmitSignIn = () => {
-    if (!this.state.name || !this.state.email || !this.state.password) {
+    if (!name || !email || !password) {
       alert("You must fill out all input fields!");
     }
-    else if (!isEmail(this.state.email)) {
+    else if (!isEmail(email)) {
       alert("Email needs to be a valid address.");
     }
-    else if (!validator.isStrongPassword(this.state.password)) {
+    else if (!validator.isStrongPassword(password)) {
       alert("Choose a password with minimum 8 characterr, 1 uppercase, 1 lowercase, 1 digit and a special charater!");
     }
     else {
